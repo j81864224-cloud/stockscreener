@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Simple Stock Screener</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f6f8fa;
+  }
+  h1 {
+    text-align: center;
+  }
+  input {
+    padding: 8px;
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background: #0070f3;
+    color: white;
+  }
+  tr:nth-child(even) {
+    background: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+  <h1>📈 Simple Stock Screener</h1>
+  <input type="text" id="search" placeholder="Search by name or symbol..." />
+
+  <table id="stockTable">
+    <thead>
+      <tr>
+        <th>Symbol</th>
+        <th>Name</th>
+        <th>Price ($)</th>
+        <th>Market Cap (B)</th>
+        <th>Sector</th>
+      </tr>
+    </thead>
+    <tbody id="stockBody"></tbody>
+  </table>
+
+<script>
+const stocks = [
+  { symbol: "AAPL", name: "Apple Inc.", price: 224.3, cap: 3500, sector: "Technology" },
+  { symbol: "MSFT", name: "Microsoft Corp.", price: 406.2, cap: 3300, sector: "Technology" },
+  { symbol: "GOOGL", name: "Alphabet Inc.", price: 170.9, cap: 2200, sector: "Communication" },
+  { symbol: "AMZN", name: "Amazon.com Inc.", price: 190.4, cap: 1950, sector: "Consumer" },
+  { symbol: "NVDA", name: "NVIDIA Corp.", price: 1150.6, cap: 2800, sector: "Technology" },
+  { symbol: "TSLA", name: "Tesla Inc.", price: 210.5, cap: 700, sector: "Automotive" },
+  { symbol: "JPM", name: "JPMorgan Chase", price: 186.3, cap: 540, sector: "Finance" },
+  { symbol: "XOM", name: "Exxon Mobil", price: 117.2, cap: 470, sector: "Energy" },
+  { symbol: "V", name: "Visa Inc.", price: 255.4, cap: 520, sector: "Finance" },
+  { symbol: "META", name: "Meta Platforms", price: 395.1, cap: 1100, sector: "Communication" },
+];
+
+const tbody = document.getElementById("stockBody");
+const search = document.getElementById("search");
+
+function renderStocks(data) {
+  tbody.innerHTML = "";
+  data.forEach(s => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${s.symbol}</td><td>${s.name}</td><td>${s.price.toFixed(2)}</td><td>${s.cap}</td><td>${s.sector}</td>`;
+    tbody.appendChild(row);
+  });
+}
+
+search.addEventListener("input", () => {
+  const val = search.value.toLowerCase();
+  const filtered = stocks.filter(s =>
+    s.symbol.toLowerCase().includes(val) ||
+    s.name.toLowerCase().includes(val) ||
+    s.sector.toLowerCase().includes(val)
+  );
+  renderStocks(filtered);
+});
+
+renderStocks(stocks);
+</script>
+</body>
+</html>
